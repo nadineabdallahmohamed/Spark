@@ -15,8 +15,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 public class Count2 {
     
-      private static final String Pipe_DELIMITER = "|";
-      private static final String  comma_DELIMITER = ",";
+      private static final String delm = "|";
+      private static final String cdelm = ",";
 
     public static void getCount2() throws IOException {
         Logger.getLogger ("org").setLevel (Level.ERROR);
@@ -38,17 +38,17 @@ public class Count2 {
         System.out.println( n.toString ());
 
         Map<String, Long> mp = n.countByValue ();
-        List<Map.Entry> lst = mp.entrySet ().stream ()
+        List<Map.Entry> sorted = mp.entrySet ().stream ()
                 .sorted (Map.Entry.comparingByValue ()).collect (Collectors.toList ());
 
-        for (Map.Entry<String, Long> entry : sorted) {
-            System.out.println (entry.getKey () + " : " + entry.getValue ());
+        for (Map.Entry<String, Long> l : sorted) {
+            System.out.println (l.getKey () + " : " + l.getValue ());
         }
     }
     private static String getT(String s) {
         try {
-             String value =  s.split (comma_DELIMITER)[6];
-             return  value.split(comma_DELIMITER)[0];
+             String value =  s.split (cdelm)[6];
+             return  value.split(cdelm)[0];
         } catch (ArrayIndexOutOfBoundsException e) {
             return "";
         }
