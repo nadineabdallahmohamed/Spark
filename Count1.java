@@ -15,39 +15,37 @@ import java.util.stream.Collectors;
 
 public class Count1 {
     private static final String COMMA_DELIMITER = ",";
-    public static void getTitleWordCount() throws IOException {
+    public static void getCount1() throws IOException {
         Logger.getLogger ("org").setLevel (Level.ERROR);
-        // CREATE SPARK CONTEXT
-        SparkConf conf = new SparkConf ().setAppName ("wordCounts").setMaster ("local[3]");
-        JavaSparkContext sparkContext = new JavaSparkContext (conf);
-        // LOAD DATASETS
-        //JavaRDD<String> videos = sparkContext.textFile ("src/main/resources/data/USvideos.csv");
-        JavaRDD<String> videos = sparkContext.textFile ("USvideos.csv");
+    
+        SparkConf sp = new SparkConf ().setAppName ("Count1").setMaster ("local[3]");
+        JavaSparkContext cnt = new JavaSparkContext (sp);
+     
+        JavaRDD<String> s = cnt.textFile ("USvideos.csv");
  
    
-        
-        // TRANSFORMATIONS
-        JavaRDD<String> titles = videos
-                .map (YoutubeTitleWordCount::extractTitle)
+
+        JavaRDD<String> st = s
+                .map (Count1::getL)
                 .filter (StringUtils::isNotBlank);
-       // JavaRDD<String>
-        JavaRDD<String> words = titles.flatMap (title -> Arrays.asList (title
+
+        JavaRDD<String> m = st.flatMap (title -> Arrays.asList (title
                 .toLowerCase ()
                 .trim ()
                 .replaceAll ("\\p{Punct}", " ")
                .split (" ")).iterator ());
-        System.out.println("*****************************************" + words.toString ());
+        System.out.println( m.toString ());
 
-        Map<String, Long> wordCounts = words.countByValue ();
-        List<Map.Entry> sorted = wordCounts.entrySet ().stream ()
+        Map<String, Long> mp = m.countByValue ();
+        List<Map.Entry> lst = mp.entrySet ().stream ()
                 .sorted (Map.Entry.comparingByValue ()).collect (Collectors.toList ());
-        for (Map.Entry<String, Long> entry : sorted) {
+        for (Map.Entry<String, Long> entry : lst) {
             System.out.println (entry.getKey () + " : " + entry.getValue ());
         }
     }
-    private static String extractTitle(String videoLine) {
+    private static String getL(String s) {
         try {
-            return videoLine.split (COMMA_DELIMITER)[2];
+            return s.split (COMMA_DELIMITER)[2];
         } catch (ArrayIndexOutOfBoundsException e) {
             return "";
         }
