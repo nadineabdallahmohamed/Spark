@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Count1 {
-    private static final String COMMA_DELIMITER = ",";
+    private static final String  comma = ",";
     public static void getCount1() throws IOException {
         Logger.getLogger ("org").setLevel (Level.ERROR);
     
@@ -39,13 +39,13 @@ public class Count1 {
         Map<String, Long> mp = m.countByValue ();
         List<Map.Entry> lst = mp.entrySet ().stream ()
                 .sorted (Map.Entry.comparingByValue ()).collect (Collectors.toList ());
-        for (Map.Entry<String, Long> entry : lst) {
-            System.out.println (entry.getKey () + " : " + entry.getValue ());
+        for (Map.Entry<String, Long> l : lst) {
+            System.out.println (l.getKey () + " : " + l.getValue ());
         }
     }
     private static String getL(String s) {
         try {
-            return s.split (COMMA_DELIMITER)[2];
+            return s.split (comma)[2];
         } catch (ArrayIndexOutOfBoundsException e) {
             return "";
         }
