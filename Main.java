@@ -7,6 +7,6 @@ import java.io.IOException;
 public class main {
     public static void main(String[] args) throws IOException
     {
-        YoutubeTagWordCount.getTagWordCount();     
+        Count2.getCount2();     
     }
 }
